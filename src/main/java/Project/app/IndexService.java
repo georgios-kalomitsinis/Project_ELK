@@ -31,7 +31,7 @@ public class IndexService {
             IndexRequest req = new IndexRequest(indexname);
             req.source(json, XContentType.JSON);
             IndexResponse response = client.index(req, RequestOptions.DEFAULT);
-            // TODO : check if index already exists
+
             System.out.println(ConsoleColors.BLUE + "Creating Index       ---->" + ConsoleColors.RESET + " name : "
                     + indexname + " | result : " + ConsoleColors.RED + response.getResult().toString()
                     + ConsoleColors.RESET);
@@ -44,7 +44,7 @@ public class IndexService {
         try {
             DeleteIndexRequest req = new DeleteIndexRequest(indexname);
             AcknowledgedResponse response = client.indices().delete(req, RequestOptions.DEFAULT);
-            // TODO : check if index exists
+
             System.out.println(ConsoleColors.BLUE + "Deleting Index       ---->" + ConsoleColors.RESET + " name : "
             + indexname + " | Acknowledged : " + ConsoleColors.RED + response.isAcknowledged()
             + ConsoleColors.RESET);

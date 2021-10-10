@@ -15,6 +15,7 @@ import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +37,7 @@ public class ESManager {
     public RestHighLevelClient CreateHighLevelClient()
             throws IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException {
 
-        boolean useSSL = false;        
+        boolean useSSL = true;        
         
         HttpHost httpHost = new HttpHost("localhost", 9200, "https");
         CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
@@ -81,7 +82,8 @@ public class ESManager {
                        @Override
                        public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
                          return httpClientBuilder.setSSLContext(sslcontext)
-                                      .setDefaultCredentialsProvider(credentialsProvider);
+                                      .setDefaultCredentialsProvider(credentialsProvider)
+                                      .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);
                          }
                      });       
                     }
